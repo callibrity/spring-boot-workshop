@@ -90,7 +90,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = HelloController.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 class HelloControllerTest {
 
@@ -107,7 +107,7 @@ class HelloControllerTest {
 ```
 
 This test class does the following:
-- `@SpringBootTest`: This annotation tells Spring Boot to bootstrap a test context for the application and load the `HelloController` class.
+- `@SpringBootTest`: This annotation tells Spring Boot to bootstrap a test context for the application.
 - `@AutoConfigureMockMvc`: This annotation enables the use of `MockMvc`, which allows us to perform HTTP requests in tests without starting a real server.
 - `@Autowired`: This annotation injects the `MockMvc` instance, which we can use to perform requests.
 - `shouldReturnHelloMessage`: This test method performs a GET request to `/hello` and verifies that the response status is 200 OK and the content matches "Hello, Spring Boot!".
