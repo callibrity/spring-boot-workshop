@@ -10,7 +10,7 @@ To create a REST API, we first need to add a dependency to our project. Spring B
 </dependency>
 ```
 
-**Note: Inside your IDE you may need to refresh the Maven project to download the new dependency.**
+***Note: Inside your IDE you may need to refresh the Maven project to download the new dependency.***
 
 ## Create a REST Controller
 Now, let's create a simple REST controller that will handle HTTP requests. Create a new Java class named `HelloController` in the `src/main/java/com/callibrity/spring/workshop` directory:
