@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>com.callibrity.spring</groupId>
-	<artifactId>spring-workshop</artifactId>
+	<artifactId>spring-boot-workshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring Workshop</name>
+	<name>Spring Boot Workshop</name>
 
 	<properties>
 		<java.version>23</java.version>
