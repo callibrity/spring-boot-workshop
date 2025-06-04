@@ -73,3 +73,63 @@ Now, open your web browser or a tool like Postman and navigate to `http://localh
 ```text
 Hello, Spring Boot!
 ```
+
+## Creating an Automated Test for the REST API
+To ensure our REST API works correctly, we can create an automated test using Spring Boot's testing support. Create a new test class named `HelloControllerTest` in the `src/test/java/com/callibrity/spring/workshop` directory:
+
+```java
+package com.callibrity.spring.workshop;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(classes = HelloController.class)
+@AutoConfigureMockMvc
+class HelloControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void shouldReturnHelloMessage() throws Exception {
+        mockMvc.perform(get("/hello"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello, Spring Boot!"));
+    }
+}
+```
+
+This test class does the following:
+- `@SpringBootTest`: This annotation tells Spring Boot to bootstrap a test context for the application and load the `HelloController` class.
+- `@AutoConfigureMockMvc`: This annotation enables the use of `MockMvc`, which allows us to perform HTTP requests in tests without starting a real server.
+- `@Autowired`: This annotation injects the `MockMvc` instance, which we can use to perform requests.
+- `shouldReturnHelloMessage`: This test method performs a GET request to `/hello` and verifies that the response status is 200 OK and the content matches "Hello, Spring Boot!".
+
+## Running the Tests
+To run the tests, you can use your IDE's built-in test runner or execute the following Maven command:
+
+```bash
+mvn test
+```
+
+You should see output indicating that the test passed successfully:
+
+```text
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.749 s
+[INFO] Finished at: 2025-06-04T12:19:35-04:00
+[INFO] ------------------------------------------------------------------------
+```
