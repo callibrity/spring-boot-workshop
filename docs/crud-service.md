@@ -54,7 +54,7 @@ public record PersonDto(String id, String firstName, String lastName) {
 
 Records in Java are a special kind of class that is used to model immutable data. This `PersonDto` record class will contain automatically-generated accessors for its fields.
 
-*** Note: When implementing the onion architecture, DTOs are typically used to transfer data between layers of the application, such as from the service layer to the controller layer. They help decouple the internal domain model from the external API representation. ***
+** Note: When implementing the onion architecture, DTOs are typically used to transfer data between layers of the application, such as from the service layer to the controller layer. They help decouple the internal domain model from the external API representation. **
 
 ## Creating the Person Application Service
 Next, we will create an application service that will handle the business logic for our `Person` domain entity. Create a new interface named `PersonService` in the same directory:
@@ -98,7 +98,7 @@ Let's cover a few key points about this code:
 - The `@Service` Annotation: indicates that this class is a Spring service component, which allows it to be automatically detected and managed by Spring.
 - Constructor Injection: The `DefaultPersonService` constructor takes a `PersonRepository` as a parameter, which is automatically injected by Spring.
 
-*** Note: Your `id`E will likely be showing an error that the `PersonRepository` interface is not implemented. This is because we haven't created a concrete implementation yet. We'll do that soon! ***
+** Note: Your `id`E will likely be showing an error that the `PersonRepository` interface is not implemented. This is because we haven't created a concrete implementation yet. We'll do that soon! **
 
 ## Testing the Person Service
 To test our `DefaultPersonService`, we can create a simple unit test. Create a new test class named `DefaultPersonServiceTest` in the `src/test/java/com/callibrity/spring/workshop/app` directory:
@@ -190,7 +190,7 @@ public class InMemoryPersonRepository implements PersonRepository {
 }
 ```
 
-*** Note: The error in your `id`E should now be resolved, as we have provided a concrete implementation of the `PersonRepository` interface. ***
+** Note: The error in your `id`E should now be resolved, as we have provided a concrete implementation of the `PersonRepository` interface. **
 
 ## Creating the Person Controller's Create Endpoint
 Now, we will need to create a REST controller that will handle HTTP requests for our `Person` domain entity. Create a new class named `PersonController` in the `src/main/java/com/callibrity/spring/workshop/web` directory:
@@ -350,7 +350,7 @@ public PersonDto getPersonById(String id) {
 }
 ```
 
-*** Hint: if you get stuck, you can refer to the `final` branch of the repository for a complete implementation. ***
+** Hint: if you get stuck, you can refer to the `final` branch of the repository for a complete implementation. **
 
 Finally, we will implement the `getPersonById` method in the `PersonController` class. This method will handle GET requests to retrieve a `Person` by its `id`.
 In our `PersonController`, we will add a new endpoint to handle GET requests for retrieving a `PersonDto` by `id`:
@@ -372,7 +372,7 @@ You should now be able to test the read endpoint by sending a GET request to `/a
 http http://localhost:8080/api/persons/1
 ```
 
-*** Note: HTTPie uses GET requests by default, so you don't need to specify the method explicitly. ***
+** Note: HTTPie uses GET requests by default, so you don't need to specify the method explicitly. **
 
 ## Implementing the Person Controller's Update Endpoint
 To add an update endpoint for modifying an existing `Person`, we will extend the `PersonService` and `PersonController` classes. First, we need to update the `PersonService` interface to include a method for updating a `Person`:
