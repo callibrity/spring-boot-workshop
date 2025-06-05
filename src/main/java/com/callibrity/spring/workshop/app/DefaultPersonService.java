@@ -20,13 +20,15 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public PersonDto getPersonById(String id) {
-        return mapToDto(findById(id));
+    public PersonDto retrievePersonById(String id) {
+        return repository.findById(id)
+                .map(this::mapToDto)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     private Person findById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Person with id %s not found", id)));
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override

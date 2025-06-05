@@ -4,7 +4,6 @@
 - [Git](https://git-scm.com/downloads) installed on your machine
 - Java 23 or later ([Adoptium](https://adoptium.net/) recommended)
 - [Apache Maven](https://maven.apache.org/) 3.8 or later
-- [HTTPie](https://httpie.io/) testing HTTP requests (optional, but recommended)
 
 ## Getting Started
 

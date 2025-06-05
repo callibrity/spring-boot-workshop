@@ -67,11 +67,67 @@ You should see similar output as before, indicating that the application has sta
 
 Notice, however, that this time the application doesn't immediately terminate as it did before. That's because Spring Boot has started an embedded web server ([Apache Tomcat](https://tomcat.apache.org/)) to handle the incoming HTTP requests and route them to our controller. Let's verify that our REST API is working correctly!
 
-## Testing the REST API
-Now, open your web browser or a tool like Postman and navigate to `http://localhost:8080/hello`. You should see the response:
+## Taking the REST API for a Spin
+
+Now that our application is running, we can test our REST API. To do that, we'll use [Swagger UI](https://swagger.io/tools/swagger-ui/), which will be automatically provided by [Springdoc](https://springdoc.org/). First, we need to add the Springdoc dependency to our `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.8.8</version>
+</dependency>
+```
+
+When using Maven, most projects will configure the dependency versions using properties. Here's how you can do that in your `pom.xml`:
+
+```xml
+<properties>
+    <springdoc.version>2.8.8</springdoc.version>
+</properties>
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>${springdoc.version}</version>
+</dependency>
+```
+
+After restarting your application, you can access Swagger UI by navigating to the following URL in your web browser:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+To interact with your service, click the "Try it out" button on the `/hello` endpoint and then click the "Execute" button. You should see a plain text response like this:
 
 ```text
 Hello, Spring Boot!
+```
+
+## Live Reloading with Spring Boot Developer Tools
+To avoid restarting the application every time you make a change to the code, you can use [Spring Boot DevTools](https://docs.spring.io/spring-boot/reference/using/devtools.html). This tool provides features like automatic restarts and live reload. To add it, include the following dependency in your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional> <!-- Don't include in production builds -->
+</dependency>
+```
+
+After adding this dependency, you can make changes to your code, and the application will automatically restart without needing to run `mvn spring-boot:run` again. This speeds up development significantly! Let's test it out by changing our `HelloController` to return a different message:
+
+```java
+@GetMapping("/hello")
+public String sayHello() {
+    return "Welcome to the Spring Boot Workshop!";
+}
+```
+
+After saving the changes and recompiling, you can refresh the Swagger UI page or make a request to `/hello` again, and you should see the updated message:
+
+```text
+Welcome to the Spring Boot Workshop!
 ```
 
 ## Creating an Automated Test for the REST API
@@ -133,3 +189,7 @@ You should see output indicating that the test passed successfully:
 [INFO] Finished at: 2025-06-04T12:19:35-04:00
 [INFO] ------------------------------------------------------------------------
 ```
+
+## What's Next?
+
+Now that we have a basic REST API set up, we can implement a more complex service, such as a [CRUD API](crud-service.md) for managing resources.

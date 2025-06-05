@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
@@ -51,14 +52,14 @@ class DefaultPersonServiceTest {
     }
 
     @Test
-    void shouldGetPersonById() {
+    void shouldRetrievePersonById() {
         var person = new Person("Jane", "Doe");
 
         when(personRepository.findById(person.getId())).thenReturn(Optional.of(person));
 
         var personService = new DefaultPersonService(personRepository);
 
-        var dto = personService.getPersonById(person.getId());
+        var dto = personService.retrievePersonById(person.getId());
         assertThat(dto).isNotNull();
         assertThat(dto.id()).isEqualTo(person.getId());
         assertThat(dto.firstName()).isEqualTo("Jane");
@@ -66,6 +67,17 @@ class DefaultPersonServiceTest {
 
         verify(personRepository).findById(person.getId());
         verifyNoMoreInteractions(personRepository);
+    }
+
+    @Test
+    void shouldThrowPersonNotFoundExceptionWhenPersonDoesNotExist() {
+        var id = "non-existent-id";
+        when(personRepository.findById(id)).thenReturn(Optional.empty());
+
+        var personService = new DefaultPersonService(personRepository);
+        assertThatThrownBy(() -> personService.retrievePersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessage("Person with id non-existent-id not found");
     }
 
     @Test

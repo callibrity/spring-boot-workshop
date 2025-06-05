@@ -1,6 +1,7 @@
 package com.callibrity.spring.workshop.web;
 
 import com.callibrity.spring.workshop.app.PersonDto;
+import com.callibrity.spring.workshop.app.PersonNotFoundException;
 import com.callibrity.spring.workshop.app.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ class PersonControllerTest {
 
     @Test
     void shouldRetrievePerson() throws Exception {
-        when(personService.getPersonById("1"))
+        when(personService.retrievePersonById("1"))
                 .thenReturn(new PersonDto("1", "John", "Doe"));
 
         mockMvc.perform(get("/api/persons/1"))
@@ -59,7 +60,48 @@ class PersonControllerTest {
                 .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(jsonPath("$.lastName").value("Doe"));
 
-        verify(personService).getPersonById("1");
+        verify(personService).retrievePersonById("1");
+        verifyNoMoreInteractions(personService);
+    }
+
+    @Test
+    void shouldReturn400WhenPersonNotFound() throws Exception {
+        when(personService.retrievePersonById("non-existent-id"))
+                .thenThrow(new PersonNotFoundException("non-existent-id"));
+
+        mockMvc.perform(get("/api/persons/non-existent-id"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.detail").value("Person with id non-existent-id not found"));
+
+        verify(personService).retrievePersonById("non-existent-id");
+        verifyNoMoreInteractions(personService);
+    }
+
+    @Test
+    void shouldReturn500WhenUnexpectedErrorOccurs() throws Exception {
+        when(personService.retrievePersonById("1"))
+                .thenThrow(new RuntimeException("Unexpected error"));
+
+        mockMvc.perform(get("/api/persons/1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.detail").value("An unexpected error occurred."));
+
+        verify(personService).retrievePersonById("1");
+        verifyNoMoreInteractions(personService);
+    }
+
+    @Test
+    void shouldReturn400WhenIllegalArgumentExceptionOccurs() throws Exception {
+        when(personService.createPerson("", "Doe"))
+                .thenThrow(new IllegalArgumentException("First name cannot be empty"));
+
+        mockMvc.perform(post("/api/persons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"firstName\":\"\", \"lastName\":\"Doe\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail").value("First name cannot be empty"));
+
+        verify(personService).createPerson("", "Doe");
         verifyNoMoreInteractions(personService);
     }
 

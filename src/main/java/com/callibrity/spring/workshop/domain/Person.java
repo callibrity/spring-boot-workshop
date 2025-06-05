@@ -29,4 +29,15 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Person person)) return false;
+        return id.equals(person.id);
+    }
+
+    @Override
+    public final int hashCode() {
+        return id.hashCode();
+    }
 }
