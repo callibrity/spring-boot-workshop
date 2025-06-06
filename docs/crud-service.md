@@ -303,7 +303,7 @@ import com.callibrity.spring.workshop.app.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -313,7 +313,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(controllers = PersonController.class)
 @AutoConfigureMockMvc
 class PersonControllerTest {
 
@@ -406,29 +406,19 @@ void shouldRetrievePerson() throws Exception {
 There are no new concepts in this test, but it verifies that the `retrievePerson` endpoint correctly retrieves a `Person` by its `id` and returns the expected JSON response. But, what happens when something goes wrong?
 
 ## Exception Handling in the Person Controller
-Inevitably, we will encounter situations where a `Person` with the specified `id` does not exist. To handle this gracefully, we can create an exception handler that will catch the `IllegalArgumentException` thrown by the `retrievePersonById` method and return a response containing a [Problem Detail](https://datatracker.ietf.org/doc/html/rfc7807). To do this, we will create a new class named `ProblemDetailExceptionHandlerAdvice` in the `src/main/java/com/callibrity/spring/workshop/web/error` directory:
+Inevitably, we will encounter situations where a `Person` with the specified `id` does not exist. To handle this gracefully, we can create an exception handler that will catch the `IllegalArgumentException` thrown by the `retrievePersonById` method and return a response containing a [Problem Detail](https://datatracker.ietf.org/doc/html/rfc7807). To do this, we will create a new class named `IllegalArgumentExceptionAdvice` in the `src/main/java/com/callibrity/spring/workshop/web/error` directory:
 
 
 ```java
 package com.callibrity.spring.workshop.web.error;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ProblemDetailExceptionHandlerAdvice {
-    
-    private static final Logger log = LoggerFactory.getLogger(ProblemDetailExceptionHandlerAdvice.class);
-    
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleUnexpectedException(Exception e) {
-        log.error("An unhandled exception has occurred.", e);
-        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
-    }
+public class IllegalArgumentExceptionAdvice {
     
     @ExceptionHandler(IllegalArgumentException.class)
     public ProblemDetail handleIllegalArgumentException(IllegalArgumentException e) {
@@ -439,7 +429,6 @@ public class ProblemDetailExceptionHandlerAdvice {
 
 Let's break down some of the key components of this exception handler:
 - `@RestControllerAdvice`: This annotation indicates that this class is a global exception handler for REST controllers. It allows us to handle exceptions thrown by any controller in the application.
-- `@ExceptionHandler(Exception.class)`: This method will handle any unhandled exceptions that occur in the application. It logs the exception and returns a `ProblemDetail` with a 500 Internal Server Error status.
 - `@ExceptionHandler(IllegalArgumentException.class)`: This method specifically handles `IllegalArgumentException` exceptions, which we throw when a `Person` with the specified `id` is not found. It returns a `ProblemDetail` with a 400 Bad Request status and the exception message.
 
 Now, when we try to retrieve a `Person` that does not exist, we will receive a 400 Bad Request response with a meaningful error message instead of a generic 500 Internal Server Error. Let's verify this with a unit test in the `PersonControllerTest` class:
@@ -482,12 +471,24 @@ public PersonDto retrievePersonById(String id) {
 }
 ```
 
-And finally, we would update the exception handler to handle this new exception:
+And finally, we can create a new exception handler to handle `PersonNotFoundException`:
 
 ```java
-@ExceptionHandler(PersonNotFoundException.class)
-public ProblemDetail handlePersonNotFoundException(PersonNotFoundException e) {
-    return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+package com.callibrity.spring.workshop.web.error;
+
+import com.callibrity.spring.workshop.app.PersonNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class PersonNotFoundExceptionAdvice {
+
+    @ExceptionHandler(PersonNotFoundException.class)
+    public ProblemDetail handlePersonNotFoundException(PersonNotFoundException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    }
 }
 ```
 

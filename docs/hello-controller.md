@@ -139,14 +139,14 @@ package com.callibrity.spring.workshop;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(controllers = HelloController.class)
 @AutoConfigureMockMvc
 class HelloControllerTest {
 
@@ -163,7 +163,7 @@ class HelloControllerTest {
 ```
 
 This test class does the following:
-- `@SpringBootTest`: This annotation tells Spring Boot to bootstrap a test context for the application.
+- `@WebMvcTest`: This annotation tells Spring Boot to bootstrap a web-only test context for the application.
 - `@AutoConfigureMockMvc`: This annotation enables the use of `MockMvc`, which allows us to perform HTTP requests in tests without starting a real server.
 - `@Autowired`: This annotation injects the `MockMvc` instance, which we can use to perform requests.
 - `shouldReturnHelloMessage`: This test method performs a GET request to `/hello` and verifies that the response status is 200 OK and the content matches "Hello, Spring Boot!".
