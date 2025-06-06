@@ -6,7 +6,7 @@ import com.callibrity.spring.workshop.app.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(controllers = PersonController.class)
 @AutoConfigureMockMvc
 class PersonControllerTest {
 
@@ -33,7 +33,7 @@ class PersonControllerTest {
     private PersonService personService;
 
     @Test
-    void shouldCreatePerson() throws Exception{
+    void shouldCreatePerson() throws Exception {
         when(personService.createPerson("John", "Doe"))
                 .thenReturn(new PersonDto("1", "John", "Doe"));
 
@@ -129,7 +129,7 @@ class PersonControllerTest {
         doNothing().when(personService).deletePersonById("1");
 
         mockMvc.perform(delete("/api/persons/1"))
-                        .andExpect(status().isOk());
+                .andExpect(status().isOk());
 
         verify(personService).deletePersonById("1");
         verifyNoMoreInteractions(personService);

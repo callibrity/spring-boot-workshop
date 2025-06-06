@@ -25,7 +25,7 @@ mvn clean install
 
 ### Run the Application
 
-The Spring Boot Maven plugin provides a `run` gaol that will run the application. You can execute this goal using the following command:
+The Spring Boot Maven plugin provides a `run` goal that will run the application. You can execute this goal using the following command:
 
 ```bash
 mvn spring-boot:run

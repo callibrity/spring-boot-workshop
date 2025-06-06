@@ -1,12 +1,26 @@
 package com.callibrity.spring.workshop.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.UUID;
 
+@Entity
 public class Person {
 
+    @Id
     private String id = UUID.randomUUID().toString();
+
+    @NotEmpty(message="{person.firstName.notEmpty}")
     private String firstName;
+
+    @NotEmpty(message="{person.lastName.notEmpty}")
     private String lastName;
+
+    public Person() {
+        // Default constructor for JPA!
+    }
 
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
