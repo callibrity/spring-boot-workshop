@@ -149,3 +149,7 @@ There's quite a bit going on here:
 - `@Container`: This annotation creates a PostgreSQL container that will be used for the tests.
 - `@ServiceConnection`: This annotation indicates that this container should be treated as a service connection, allowing Spring Boot to automatically configure the datasource for the tests.
 - `@Transactional(propagation = Propagation.NOT_SUPPORTED)`: This annotation is used to avoid transaction rollback for the test that checks for invalid input.
+
+## What's Next?
+
+Now that we have an application that uses a real database, we need to be able to [observe and monitor](observability.md) its behavior.
