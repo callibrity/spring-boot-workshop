@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PersonController.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) // Disable security filters for testing
 class PersonControllerTest {
 
     @Autowired

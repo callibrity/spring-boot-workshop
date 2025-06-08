@@ -11,15 +11,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = HelloController.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) // Disable security filters for testing
 class HelloControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    @Test//
     void shouldReturnHelloMessage() throws Exception {
-        mockMvc.perform(get("/hello"))
+        mockMvc.perform(get("/api/hello"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello, Spring Boot!"));
     }

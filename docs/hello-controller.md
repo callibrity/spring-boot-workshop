@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/hello")
+    @GetMapping("/api/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
     }
@@ -33,7 +33,7 @@ public class HelloController {
 
 Let's break down what this code does:
 - `@RestController`: This annotation indicates that this class is a REST controller, which allows it to handle HTTP requests and return responses directly.
-- `@GetMapping("/hello")`: This annotation maps HTTP GET requests to the `sayHello` method. When a request is made to `/hello`, this method will be invoked.
+- `@GetMapping("/api/hello")`: This annotation maps HTTP GET requests to the `sayHello` method. When a request is made to `/api/hello`, this method will be invoked.
 
 ## Run the Application Again
 Now that we have our REST controller set up, we can test it. Let's run our application again:
@@ -98,7 +98,7 @@ After restarting your application, you can access Swagger UI by navigating to th
 http://localhost:8080/swagger-ui/index.html
 ```
 
-To interact with your service, click the "Try it out" button on the `/hello` endpoint and then click the "Execute" button. You should see a plain text response like this:
+To interact with your service, click the "Try it out" button on the `/api/hello` endpoint and then click the "Execute" button. You should see a plain text response like this:
 
 ```text
 Hello, Spring Boot!
@@ -118,7 +118,7 @@ To avoid restarting the application every time you make a change to the code, yo
 After adding this dependency, you can make changes to your code, and the application will automatically restart without needing to run `mvn spring-boot:run` again. This speeds up development significantly! Let's test it out by changing our `HelloController` to return a different message:
 
 ```java
-@GetMapping("/hello")
+@GetMapping("/api/hello")
 public String sayHello() {
     return "Welcome to the Spring Boot Workshop!";
 }
@@ -155,7 +155,7 @@ class HelloControllerTest {
 
     @Test
     void shouldReturnHelloMessage() throws Exception {
-        mockMvc.perform(get("/hello"))
+        mockMvc.perform(get("/api/hello"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello, Spring Boot!"));
     }
