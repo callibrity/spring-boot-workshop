@@ -178,15 +178,13 @@ mvn test
 You should see output indicating that the test passed successfully:
 
 ```text
-[INFO] Results:
-[INFO] 
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.749 s
-[INFO] Finished at: 2025-06-04T12:19:35-04:00
+[INFO] Total time:  1.500 s
+[INFO] Finished at: 2025-06-08T22:12:42-04:00
 [INFO] ------------------------------------------------------------------------
 ```
 
