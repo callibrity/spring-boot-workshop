@@ -1,0 +1,5 @@
+tap "homebrew/bundle"
+tap "homebrew/services"
+brew "git"
+brew "maven"
+cask "temurin"
