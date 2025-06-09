@@ -108,6 +108,8 @@ This `InMemoryPersonRepository` class implements the `PersonRepository` interfac
 Let's define a simple data transfer object (DTO) for a `Person` domain entity. Create a new record class named `PersonDto` in the `src/main/java/com/callibrity/spring/workshop/app` directory:
 
 ```java
+package com.callibrity.spring.workshop.app;
+
 public record PersonDto(String id, String firstName, String lastName) {
 }
 ```
@@ -489,6 +491,23 @@ public class PersonNotFoundExceptionAdvice {
     public ProblemDetail handlePersonNotFoundException(PersonNotFoundException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
     }
+}
+```
+
+We also need to update the `PersonControllerTest` to throw this new exception type in the `retrievePerson` test:
+
+```java
+@Test
+void shouldReturn400WhenPersonNotFound() throws Exception {
+    when(personService.retrievePersonById("non-existent-id"))
+            .thenThrow(new PersonNotFoundException("non-existent-id"));
+
+    mockMvc.perform(get("/api/persons/non-existent-id"))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.detail").value("Person with id non-existent-id not found"));
+
+    verify(personService).retrievePersonById("non-existent-id");
+    verifyNoMoreInteractions(personService);
 }
 ```
 

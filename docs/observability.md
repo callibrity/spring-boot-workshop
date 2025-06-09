@@ -73,7 +73,7 @@ The `/actuator/info` endpoint provides metadata about your application. You can 
 {}
 ```
 
-Let's fix that! To populate this endpoint with useful information, modify our `pom.xml` file:
+Let's fix that! To populate this endpoint with useful information, modify the `spring-boot-maven-plugin` setup in our `pom.xml` file:
 
 ```xml
 
@@ -304,7 +304,6 @@ To record your own metrics, you will use [Micrometer](https://micrometer.io/), w
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-core</artifactId>
-    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -318,6 +317,11 @@ public class DefaultPersonService implements PersonService {
 }
 ```
 
+We must also enable the Micrometer Observability annotations feature in our `application.properties` file:
+
+```properties
+management.observations.annotations.enabled=true
+```
 The standard naming convention for Micrometer metrics is dot-separated, similar to package names. In this case, we named the metric `service.person`, which indicates that it is related to the `PersonService`. Since Micrometer is a facade, it will automatically adapt the metric names (if you stick to the convention) to be appropriate for the underlying monitoring system you are using, such as Prometheus, InfluxDB, or others. Let's take a look at the metrics that are recorded by Micrometer when you use the `DefaultPersonService` by accessing the `/actuator/metrics/service.person` endpoint:
 
 ```json
