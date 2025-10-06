@@ -2,8 +2,14 @@
 
 ## Prerequisites
 - [Git](https://git-scm.com/downloads) installed on your machine
-- Java 23 or later ([Adoptium](https://adoptium.net/) recommended)
+- Java Development Kit (JDK) 21+
+  - [Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html)
+  - [Azul Zulu](https://www.azul.com/downloads/?package=jdk#zulu)
+  - [BellSoft Liberica](https://bell-sw.com/pages/downloads/#jdk-21-lts)
+  - [Eclipse Temurin](https://adoptium.net/temurin/releases)
+  - [Microsoft Build of OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download)
 - [Apache Maven](https://maven.apache.org/) 3.8 or later
+- [Docker Desktop](https://docs.docker.com/desktop/)
 
 ## Getting Started
 
@@ -17,7 +23,10 @@ cd spring-boot-workshop
 ```
 
 ### Build the Application
-Now we will use Apache Maven (mvn) to build the project. Maven is a build automation tool used primarily for Java projects, and it will handle downloading dependencies and compiling the code. The first time you run Maven, it will download all the necessary dependencies specified in the `pom.xml` file. Subsequent runs will be faster as Maven caches these dependencies.
+Now we will use Apache Maven (mvn) to build the project. Maven is a build automation tool used primarily for Java 
+projects, and it will handle downloading dependencies and compiling the code. The first time you run Maven, it will 
+download all the necessary dependencies specified in the `pom.xml` file. Later builds will be faster as Maven caches 
+these dependencies (`~/.m2/repository`).
 
 ```bash
 mvn clean install
