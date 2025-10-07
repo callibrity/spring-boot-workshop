@@ -74,7 +74,7 @@ By simply extending `JpaRepository`, Spring Data JPA will automatically provide 
 If your application is still running (`mvn spring-boot:run`), you can stop it and restart it to pick up the new repository. If you are using Spring Boot DevTools, it will automatically restart the application for you. 
 
 ### Gotcha!
-When DevTools tried tto restart the application, it likely encountered an error like this:
+When DevTools tried to restart the application, it likely encountered an error like this:
 
 ```text
 ***************************
@@ -128,7 +128,7 @@ To manage database schema changes in a more controlled way, you can use a schema
 </dependency>
 ```
 
-Spring Boot Autoconfiguration will kick in and Liquibase will automatically be configured for you simply by adding this dependency. However, it will be looking for the master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml`. Since YAML is the root of all evil, we will use XML instead (it's better supported by Liquibase). Let's configure Spring Boot to use an XML-based master changelog file. In your `src/main/resources/application.properties` file, add the following line:
+Spring Boot Autoconfiguration will kick in, and Liquibase will automatically be configured for you simply by adding this dependency. However, it will be looking for the master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml`. Since YAML is the root of all evil, we will use XML instead (it's better supported by Liquibase). Let's configure Spring Boot to use an XML-based master changelog file. In your `src/main/resources/application.properties` file, add the following line:
 
 ```properties
 spring.liquibase.change-log=classpath:/db/changelog/db.changelog-master.xml
