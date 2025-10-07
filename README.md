@@ -10,8 +10,25 @@
   - [Microsoft Build of OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download)
 - [Apache Maven](https://maven.apache.org/) 3.8 or later
 - [Docker Desktop](https://docs.docker.com/desktop/)
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (Ultimate Edition if possible, but Community Edition works too)
 
 ## Getting Started
+
+### Verify Maven Installation
+First, let's verify that Maven is installed correctly. Open your terminal and run the following command:
+```bash
+mvn -v
+```
+
+You should see output similar to the following, which indicates that Maven is installed and shows the version:
+
+```text
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: /opt/homebrew/Cellar/maven/3.9.11/libexec
+Java version: 21.0.8, vendor: BellSoft, runtime: /Library/Java/JavaVirtualMachines/liberica-jdk-21.jdk/Contents/Home
+Default locale: en_US, platform encoding: UTF-8
+OS name: "mac os x", version: "26.0.1", arch: "aarch64", family: "mac"
+```
 
 ### Download the Code
 
