@@ -498,7 +498,7 @@ We also need to update the `PersonControllerTest` to throw this new exception ty
 
 ```java
 @Test
-void shouldReturn400WhenPersonNotFound() throws Exception {
+void shouldReturn404WhenPersonNotFound() throws Exception {
     when(personService.retrievePersonById("non-existent-id"))
             .thenThrow(new PersonNotFoundException("non-existent-id"));
 
