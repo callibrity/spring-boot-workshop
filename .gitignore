@@ -33,3 +33,4 @@ build/
 .vscode/
 
 /otel/local-otel-config.yaml
+/otel/azure-otel-config.yaml

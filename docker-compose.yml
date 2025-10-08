@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: 'postgres:17'
+    environment:
+      - 'POSTGRES_DB=spring-boot-db'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=spring-boot-user'
+    ports:
+      - '5432:5432'
+  otel-collector:
+    image: 'otel/opentelemetry-collector-contrib:latest'
+    command: [
+      '--config=/etc/otel-config.yaml'
+    ]
+    volumes:
+      - './otel/otel-config.yaml:/etc/otel-config.yaml'
+    ports:
+      - '4317:4317'
+      - '4318:4318'
+    depends_on:
+      - postgres
